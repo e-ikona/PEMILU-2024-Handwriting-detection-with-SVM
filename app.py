@@ -68,19 +68,23 @@ def preview_predictions(model, X_test, y_test, X_original, img_size, num_samples
     
     for i in range(num_samples):
         index = np.random.randint(0, len(X_test))
-        img = X_original[index].reshape(img_size, img_size)
+        
+        # Pastikan img adalah 2D
+        img = X_original[index].reshape(img_size, img_size)  # Ubah kembali ke 2D
+        
         true_label = y_test[index]
         
         # Prediksi label menggunakan model SVM
         predicted_label = model.predict([X_test[index]])[0]
         
         plt.subplot(num_rows, num_columns, i + 1)
-        plt.imshow(img, cmap='gray')
+        plt.imshow(img, cmap='gray')  # Tampilkan gambar dalam mode grayscale
         plt.title(f"Asli: {true_label}\nPred: {predicted_label}", color='green' if true_label == predicted_label else 'red')
         plt.axis('off')
     
     plt.tight_layout()
     st.pyplot(plt)
+
 
 
 def train_and_evaluate_model(X_train, X_test, y_train, y_test):
