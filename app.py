@@ -70,6 +70,8 @@ def preview_predictions(model, X_test, y_test, X_original, img_size, num_samples
         index = np.random.randint(0, len(X_test))
         img = X_original[index].reshape(img_size, img_size)
         true_label = y_test[index]
+        
+        # Prediksi label menggunakan model SVM
         predicted_label = model.predict([X_test[index]])[0]
         
         plt.subplot(num_rows, num_columns, i + 1)
@@ -79,6 +81,7 @@ def preview_predictions(model, X_test, y_test, X_original, img_size, num_samples
     
     plt.tight_layout()
     st.pyplot(plt)
+
 
 def train_and_evaluate_model(X_train, X_test, y_train, y_test):
     model = SVC(kernel='linear')
