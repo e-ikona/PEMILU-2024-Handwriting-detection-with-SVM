@@ -117,7 +117,7 @@ def prediction_page(model, img_size=40):
         img_resized = cv2.resize(img.reshape(img_size, img_size), (img_size, img_size))
         
         prediction = predict_image(model, img_resized, img_size)
-        st.image(uploaded_file, caption="Gambar yang diunggah", use_container_width=True)
+        st.image(uploaded_file, caption="Gambar yang diunggah")
         st.title(f"Prediksi: {prediction}")
 
 def main():
