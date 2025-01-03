@@ -122,7 +122,6 @@ def main():
 
     if option == "Model Tanpa Ekstraksi Fitur":
         st.title("Model Tanpa Ekstraksi Fitur (SVM)")
-        
         test_size_percent = st.slider(
             "Pilih proporsi data uji (%)", 
             min_value=10, max_value=50, step=5, value=20
