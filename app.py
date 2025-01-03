@@ -8,7 +8,6 @@ from sklearn.metrics import accuracy_score, f1_score
 from skimage.feature import hog
 import matplotlib.pyplot as plt
 
-# Fungsi untuk memuat data
 def load_data(folder_path, img_size):
     data, labels = [], []
     for filename in os.listdir(folder_path):
@@ -21,7 +20,6 @@ def load_data(folder_path, img_size):
             labels.append(label)
     return np.array(data), np.array(labels)
 
-# Fungsi untuk mengekstrak fitur HOG
 def extract_hog_features(images, img_size):
     hog_features = []
     for img in images:
@@ -29,7 +27,6 @@ def extract_hog_features(images, img_size):
         hog_features.append(feature)
     return np.array(hog_features)
 
-# Fungsi untuk membagi data
 def split_data(X, y, test_size):
     splitter = StratifiedShuffleSplit(n_splits=1, test_size=test_size, random_state=42)
     for train_index, test_index in splitter.split(X, y):
@@ -37,7 +34,6 @@ def split_data(X, y, test_size):
         y_train, y_test = y[train_index], y[test_index]
     return X_train, X_test, y_train, y_test
 
-# Fungsi untuk memvisualisasikan data latih dan data uji
 def visualize_results(y_train, y_test):
     unique_train, counts_train = np.unique(y_train, return_counts=True)
     unique_test, counts_test = np.unique(y_test, return_counts=True)
@@ -65,7 +61,6 @@ def visualize_results(y_train, y_test):
     st.pyplot(plt)
 
 
-# Fungsi untuk memvisualisasikan prediksi
 def preview_predictions(model, X_test, y_test, X_original, img_size, num_samples=20):
     num_columns = 5
     num_rows = (num_samples // num_columns) + (num_samples % num_columns > 0)
@@ -85,7 +80,6 @@ def preview_predictions(model, X_test, y_test, X_original, img_size, num_samples
     plt.tight_layout()
     st.pyplot(plt)
 
-# Fungsi untuk melatih dan mengevaluasi model
 def train_and_evaluate_model(X_train, X_test, y_train, y_test):
     model = SVC(kernel='linear')
     model.fit(X_train, y_train)
@@ -151,7 +145,6 @@ def main():
     elif option == "Model dengan Ekstraksi Fitur":
         st.title("Model dengan Ekstraksi Fitur")
         
-        # Pengaturan test size khusus untuk halaman ini
         test_size_percent = st.slider(
             "Pilih proporsi data uji (%)", 
             min_value=10, max_value=50, step=5, value=20
