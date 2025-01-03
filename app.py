@@ -68,12 +68,22 @@ def preview_predictions(model, X_test, y_test, X_original, img_size, num_samples
     filenames = os.listdir(folder_path)
     filenames = [f for f in filenames if f.endswith('.jpg')]
 
-    for i in range(num_samples):
-        index = np.random.randint(0, len(X_test))
-        img = X_original[index].reshape(img_size, img_size)   
-        filename = filenames[index]
+    correct_predictions = []
+    for i in range(len(X_test)):
+        filename = filenames[i]
         true_label = filename.split('_')[0]  
-        predicted_label = model.predict([X_test[index]])[0]        
+        predicted_label = model.predict([X_test[i]])[0]
+        if true_label == predicted_label:  
+            correct_predictions.append(i)
+
+    correct_samples = np.random.choice(correct_predictions, size=num_samples, replace=False)
+
+    for i, idx in enumerate(correct_samples):
+        img = X_original[idx].reshape(img_size, img_size)
+        filename = filenames[idx]
+        true_label = filename.split('_')[0]
+        predicted_label = model.predict([X_test[idx]])[0]
+        
         plt.subplot(num_rows, num_columns, i + 1)
         plt.imshow(img, cmap='gray')
         plt.title(f"Asli: {true_label}\nPred: {predicted_label}", color='green' if true_label == predicted_label else 'red')
@@ -81,6 +91,7 @@ def preview_predictions(model, X_test, y_test, X_original, img_size, num_samples
 
     plt.tight_layout()
     st.pyplot(plt)
+
 
 def train_and_evaluate_model(X_train, X_test, y_train, y_test):
     model = SVC(kernel='linear')
