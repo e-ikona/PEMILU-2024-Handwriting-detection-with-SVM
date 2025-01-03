@@ -23,7 +23,7 @@ def load_data(folder_path, img_size):
 def extract_hog_features(images, img_size):
     hog_features = []
     for img in images:
-        feature = hog(img.reshape(img_size, img_size), pixels_per_cell=(4, 4), cells_per_block=(2, 2), feature_vector=True)
+        feature = hog(img.reshape(img_size, img_size),pixels_per_cell=(4, 4), cells_per_block=(2, 2), feature_vector=True)
         hog_features.append(feature)
     return np.array(hog_features)
 
@@ -121,7 +121,7 @@ def main():
     folder_path = './DS-9/'
 
     if option == "Model Tanpa Ekstraksi Fitur":
-        st.title("Model Tanpa Ekstraksi Fitur")
+        st.title("Model Tanpa Ekstraksi Fitur (SVM)")
         
         test_size_percent = st.slider(
             "Pilih proporsi data uji (%)", 
@@ -143,7 +143,7 @@ def main():
         preview_predictions(model, X_test, y_test, X, img_size=30)
     
     elif option == "Model dengan Ekstraksi Fitur":
-        st.title("Model dengan Ekstraksi Fitur")
+        st.title("Model dengan Ekstraksi Fitur (SVM + HOG)")
         
         test_size_percent = st.slider(
             "Pilih proporsi data uji (%)", 
@@ -167,8 +167,7 @@ def main():
 
     elif option == "Prediksi":
         st.title("Halaman Prediksi")
-        st.write("Statistik model yang dipakai:")
-        
+        st.write("Statistik model yang dipakai(SVM + HOG):")
         X, y = load_data(folder_path, img_size=40)
         X = X / 255.0
         hog_X = extract_hog_features(X, img_size=40)
