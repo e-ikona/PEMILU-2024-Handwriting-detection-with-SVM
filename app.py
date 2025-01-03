@@ -61,29 +61,38 @@ def visualize_results(y_train, y_test):
     st.pyplot(plt)
 
 
-def preview_predictions(model, X_test, y_test, X_original, img_size, num_samples=20):
+def preview_predictions(model, X_test, y_test, X_original, img_size, num_samples=20, folder_path='./DS-9/'):
     num_columns = 5
     num_rows = (num_samples // num_columns) + (num_samples % num_columns > 0)
     plt.figure(figsize=(15, 3 * num_rows))
-    
+
+    # Ambil nama file gambar dari folder untuk menyesuaikan label dengan gambar yang asli
+    filenames = os.listdir(folder_path)
+    filenames = [f for f in filenames if f.endswith('.jpg')]
+
     for i in range(num_samples):
+        # Pilih index secara acak
         index = np.random.randint(0, len(X_test))
         
-        # Mengambil gambar asli dan label asli
+        # Ambil gambar asli
         img = X_original[index].reshape(img_size, img_size)
-        true_label = y_test[index]
         
-        # Menghitung prediksi untuk gambar yang terpilih
+        # Ambil nama file gambar dan label asli dari nama file
+        filename = filenames[index]
+        true_label = filename.split('_')[0]  # Label dari nama file (sebelum '_')
+        
+        # Prediksi model
         predicted_label = model.predict([X_test[index]])[0]
         
-        # Menampilkan gambar dengan label asli dan prediksi
+        # Tampilkan gambar dengan label asli dan prediksi
         plt.subplot(num_rows, num_columns, i + 1)
         plt.imshow(img, cmap='gray')
         plt.title(f"Asli: {true_label}\nPred: {predicted_label}", color='green' if true_label == predicted_label else 'red')
         plt.axis('off')
-    
+
     plt.tight_layout()
     st.pyplot(plt)
+
 
 
 
